@@ -202,22 +202,13 @@ function parseToSecondFromFormatVTT(timeInFormatVTT){
 
 function formatCaptionToJSON(responseFromPythonCode){
   var captionJSON = []
-  var arr = responseFromPythonCode.split(",");
-  for (var i = 1; i < arr.length -1 ; i=i+6) {
-	//var time_with_miliseconds = arr[i];
-        //var time = time_with_miliseconds.split("-->")[1];
-        //var text = arr[i+2];
-	var time = arr[i];
-	var text = arr[i+3];
-
-	//console.log('arr[i]:'+ arr[i]+' i:'+i);
-	console.log("text:"+text+" time:"+time);
-    //console.log('arr[i+1]:'+ arr[i]+' i:'+i+1);
+  var arr = responseFromPythonCode.split("<->");
+  for (var i = 4; i < arr.length -2 ; i = i+3) {
+    var time = arr[i].split(",")[1];
+    var text = arr[i+1].split(",")[1];
+    console.log("text:"+text+"time:"+time);
+    console.log("arr["+i+"]: "+arr[i]);
     captionJSON.push([parseToSecondFromFormatVTT(time +''),text]);
-  }
-
-  for (var i = 0; i < captionJSON.length; i++) {
-    console.log('caption'+captionJSON[i])
   }
   return captionJSON;
 }

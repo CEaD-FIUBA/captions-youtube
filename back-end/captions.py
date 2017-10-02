@@ -131,10 +131,18 @@ def update_caption(youtube, caption_id, file):
 def download_caption(youtube, caption_id, tfmt):
   subtitle = youtube.captions().download(
     id=caption_id,
-    tfmt='srt'
+    tfmt='vtt'
   ).execute()
 
-  print "%s" % (subtitle)
+  #print "%s" % (subtitle)
+  print_caption(subtitle)
+
+def print_caption(subtitle):
+    print("caption")
+    array = subtitle.split("\n")
+    for str in array:
+        print(str+"<->")
+
 
 # Call the API's captions.delete method to delete an existing caption track.
 def delete_caption(youtube, caption_id):
