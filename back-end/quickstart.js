@@ -207,7 +207,7 @@ function formatCaptionToJSON(responseFromPythonCode){
     var time = arr[i].split(",")[1];
     var text = arr[i+1].split(",")[1];
     console.log("text:"+text+"time:"+time);
-    console.log("arr["+i+"]: "+arr[i]);
+    //console.log("arr["+i+"]: "+arr[i]);
     captionJSON.push([parseToSecondFromFormatVTT(time +''),text]);
   }
   return captionJSON;
