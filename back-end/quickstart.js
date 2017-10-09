@@ -4,10 +4,9 @@ var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var python_shell = require('python-shell');
 
-
 //Informacion del video que quiero obtener informacion
 //var videoId = "QdjO0e10O_I";
-var fieldsOfQuery = "items/id";
+var fieldsOfQuery = "items(id,snippet/status)";
 var captionFormat = 'srt';
 var idCaption;
 var title;
@@ -58,7 +57,7 @@ function authorize(credentials, callback,response,resolve) {
   fs.readFile(TOKEN_PATH, function(err, token) {
     if (err) {
       getNewToken(oauth2Client, callback);
-      return new Promise.reject('getNewToken');
+      return Promise.reject('getNewToken');
     } else {
       oauth2Client.credentials = JSON.parse(token);
       callback(oauth2Client,response,resolve);
@@ -125,7 +124,7 @@ function getIdCaption(auth,response,resolve){
   var service = google.youtube('v3');
   service.captions.list({
     auth: auth,
-    part: "id",
+    part: "snippet",
     videoId: videoId,
     fields: fieldsOfQuery
   },function(err,res){
@@ -133,10 +132,15 @@ function getIdCaption(auth,response,resolve){
       console.log('The API returned an error' + err)
     }
     console.log(res);
-    console.log('response.items'+res.items[0].id);
+    console.log('response.items'+res.items[0]['snippet'].status);
+    if (res.items[0]['snippet'].status != "failed"){
+      idCaption = String(res.items[0].id);
+    }else{
+      idCaption = String(res.items[1].id);
+    }
     //var obj = JSON.parse(body);
-    idCaption = String(res.items[0].id);
     console.log("El id del caption:"+ idCaption);
+	  console.log('response:'+response);
     response['id-caption'] = idCaption;
     getTitle(auth,response,resolve);
     getCaption(idCaption,response,resolve);
@@ -156,6 +160,7 @@ function getTitle(auth,response,resolve){
     if(err){
       console.log('The API returned an error'+err);
     }
+    console.log('dasdadas:'+res);
     console.log('The title:'+res.items[0].snippet.title);
     title = res.items[0].snippet.title;
     response['video-title'] = title;
@@ -183,29 +188,27 @@ function parseToSecondFromFormatVTT(timeInFormatVTT){
   var arr = timeInFormatVTT.split('-->');
   var beginTime = arr[0];
   var arrTime = beginTime.split(":");
-  console.log('arrTime:'+arrTime);
+  //console.log('arrTime:'+arrTime);
   var hourInSeconds = parseInt(arrTime[0])*60*60;
   var minuteInSeconds = parseInt(arrTime[1])*60;
   var ss_ms = arrTime[2] + '';
-  console.log('ss.ms'+ss_ms);
+  //console.log('ss.ms'+ss_ms);
   var seconds = parseInt(ss_ms.split(".")[0]);
-  console.log('seconds:'+seconds);
-  console.log('hourInSeconds:'+hourInSeconds+'minuteInSeconds:'+minuteInSeconds+'seconds:'+seconds);
+  //console.log('seconds:'+seconds);
+  //console.log('hourInSeconds:'+hourInSeconds+'minuteInSeconds:'+minuteInSeconds+'seconds:'+seconds);
   var time = hourInSeconds + minuteInSeconds + seconds;
   return time;
 }
 
 function formatCaptionToJSON(responseFromPythonCode){
   var captionJSON = []
-  var arr = responseFromPythonCode.split(",");
-  for (var i = 4; i < arr.length-2; i+=3) {
-    console.log('arr[i]:'+ arr[i]+' i:'+i);
-    console.log('arr[i+1]:'+ arr[i]+' i:'+i+1);
-    captionJSON.push([parseToSecondFromFormatVTT(arr[i] +''),arr[i+1]]);
-  }
-
-  for (var i = 0; i < captionJSON.length; i++) {
-    console.log('caption'+captionJSON[i])
+  var arr = responseFromPythonCode.split("<->");
+  for (var i = 4; i < arr.length -2 ; i = i+3) {
+    var time = arr[i].split(",")[1];
+    var text = arr[i+1].split(",")[1];
+    console.log("text:"+text+"time:"+time);
+    //console.log("arr["+i+"]: "+arr[i]);
+    captionJSON.push([parseToSecondFromFormatVTT(time +''),text]);
   }
   return captionJSON;
 }

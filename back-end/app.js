@@ -21,12 +21,13 @@ app.get('/:video_id',function (req,res){
     console.log('El response de quickstart:' + response['id-caption']);
     res.status(200);
     //res.setHeader('Content-type','json');
+    res.setHeader('Access-Control-Allow-Origin','*');
     res.send(response);
   })
 })
 
 
 
-app.listen(3050, function(){
+app.listen(443, function(){
   console.log('Ya se lanzó el server');
 })

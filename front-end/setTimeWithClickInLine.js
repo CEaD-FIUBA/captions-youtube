@@ -46,20 +46,3 @@ var preselectChapter = null;
       }
     }
   });
-
-
-//A esta funcion le llega el formato siguiente
-//hh:mm::ss,ms
-function getSeconds(time){
-  //array es el del tipo ["hh","mm","ss,ms"]
-  var hhMmSsArray = time.split(":");
-  var secondsString = hhMmSsArray[2];
-  var secondsArray = secondsString.split(",");
-  var hoursInSeconds = parseInt(hhMmSsArray[0])*60*60;
-  var minutesInSeconds = parseInt(hhMmSsArray[1])*60;
-  var seconds = parseInt(secondsArray[0]);
-  var miliseconds = parseInt(secondsArray[1])/1000;
-  var time = hoursInSeconds + minutesInSeconds + seconds;
-  //console.log("Son:"+time+" segundos");
-  return time;
-}
