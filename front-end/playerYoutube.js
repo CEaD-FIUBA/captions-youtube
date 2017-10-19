@@ -2,7 +2,8 @@
   tag.src = "https://www.youtube.com/iframe_api";
   var firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  var videoId = "6lGsA04oY9M";
+  var videoId = $('#player').val();
+  console.log('el video id es:'+videoId);
   var player;
 
   function onYouTubeIframeAPIReady(){
