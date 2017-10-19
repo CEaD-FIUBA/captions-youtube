@@ -2,7 +2,7 @@
   tag.src = "https://www.youtube.com/iframe_api";
   var firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  var videoId = $('#player').val();
+  var videoId = $('#player').attr('val');
   console.log('el video id es:'+videoId);
   var player;
 
