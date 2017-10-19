@@ -13,6 +13,7 @@
   width: 100%;
   border: 2px solid lightblue;
   border-radius: 12px;
+  overflow-y:scroll;
 }
 
 p.line{
