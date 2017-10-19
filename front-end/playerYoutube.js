@@ -3,6 +3,7 @@
   var firstScriptTag = document.getElementsByTagName('script')[0];
   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
   var videoId = $('#video').val();
+  console.log('El id del video a cargar es:'+videoId);
   var player;
 
   function onYouTubeIframeAPIReady(){
@@ -26,8 +27,6 @@ function onPlayerReady(event){
         event.target.playVideo();
         refreshTime();
 }
-
-
 
 
 //Dado que esta reproduciendo
