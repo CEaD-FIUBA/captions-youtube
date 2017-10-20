@@ -3,6 +3,7 @@ var timesOfChapters = [];
 var chapters = [];
 
 function parserCaption(caption){
+  var contador_chapter = 1;
   console.log('Caption:'+caption);
   var caption_string = String(caption);
 
@@ -23,7 +24,7 @@ function parserCaption(caption){
           captions.push(line);
         }else{
           var chapter_name = text.split(":")[1];
-          line.text(chapter_name);
+          line.text(contador_chapter+'-'chapter_name);
           //console.log("chapter_name:"+chapter_name);
           line.addClass('chapter');
           $("#chapters").append(line);
