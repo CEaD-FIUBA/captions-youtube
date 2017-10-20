@@ -24,7 +24,7 @@ function parserCaption(caption){
           captions.push(line);
         }else{
           var chapter_name = text.split(":")[1];
-          line.text(contador_chapter+'-'+chapter_name);
+          line.text(contador_chapter+' -'+chapter_name);
           //console.log("chapter_name:"+chapter_name);
           line.addClass('chapter');
           $("#chapters").append(line);
