@@ -35,3 +35,8 @@ function parserCaption(caption){
     console.log('text: '+text+'time: '+time);
   }
 }
+
+
+function insertTitle(title){
+  $('#title_of_video').text(title);
+}
