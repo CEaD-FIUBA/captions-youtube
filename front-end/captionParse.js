@@ -30,6 +30,7 @@ function parserCaption(caption){
           $("#chapters").append(line);
           timesOfChapters.push(time);
           chapters.push(line);
+          contador_chapter++;
     }
     console.log('text: '+text+'time: '+time);
   }
